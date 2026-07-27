@@ -1,0 +1,102 @@
+.form-container {
+  max-width: 450px;
+  margin: 20px auto;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+
+  h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+}
+
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+
+    .required {
+      color: #e53935;
+    }
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"] {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+
+    /* Рамка НЕВАЛИДНОГО поля (только если взаимодействовали) */
+    &.is-invalid {
+      border: 2px solid #e53935 !important;
+    }
+
+    /* Рамка ВАЛИДНОГО поля (только если взаимодействовали) */
+    &.is-valid {
+      border: 2px solid #4caf50 !important;
+    }
+  }
+}
+
+.checkbox-group {
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: normal;
+  }
+}
+
+.error-text {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #f57c00;
+  }
+
+  /* Блокировка кнопки отправки */
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  border: 1px solid #a5d6a7;
+  text-align: center;
+}

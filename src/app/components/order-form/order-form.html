@@ -1,0 +1,115 @@
+<div class="form-container">
+  <h2>🍕 Оформление заказа</h2>
+
+  @if (isSubmitted) {
+    <div class="success-message">
+      ✅ Заказ успешно отправлен! Данные выведены в консоль.
+    </div>
+  }
+
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="firstName">Имя <span class="required">*</span></label>
+      <input
+        id="firstName"
+        type="text"
+        formControlName="firstName"
+        placeholder="Введите имя"
+        [class.is-invalid]="showError('firstName')"
+        [class.is-valid]="isValid('firstName')"
+      />
+
+      @if (showError('firstName')) {
+        <div class="error-text">
+          @if (f['firstName'].errors?.['required']) {
+            <span>Имя обязательно для заполнения</span>
+          } @else if (f['firstName'].errors?.['minlength']) {
+            <span>Имя должно содержать минимум 2 символа</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Фамилия <span class="required">*</span></label>
+      <input
+        id="lastName"
+        type="text"
+        formControlName="lastName"
+        placeholder="Введите фамилию"
+        [class.is-invalid]="showError('lastName')"
+        [class.is-valid]="isValid('lastName')"
+      />
+
+      @if (showError('lastName')) {
+        <div class="error-text">
+          @if (f['lastName'].errors?.['required']) {
+            <span>Фамилия обязательна для заполнения</span>
+          } @else if (f['lastName'].errors?.['minlength']) {
+            <span>Минимальная длина — 5 символов</span>
+          } @else if (f['lastName'].errors?.['maxlength']) {
+            <span>Максимальная длина — 20 символов</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email <span class="required">*</span></label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="example@gmail.com"
+        [class.is-invalid]="showError('email')"
+        [class.is-valid]="isValid('email')"
+      />
+
+      @if (showError('email')) {
+        <div class="error-text">
+          @if (f['email'].errors?.['required']) {
+            <span>Email обязателен</span>
+          } @else if (f['email'].errors?.['email']) {
+            <span>Введите корректный email-адрес</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="age">Возраст</label>
+      <input
+        id="age"
+        type="number"
+        formControlName="age"
+        placeholder="Укажите возраст"
+        [class.is-invalid]="showError('age')"
+        [class.is-valid]="isValid('age')"
+      />
+
+      @if (showError('age')) {
+        <div class="error-text">
+          @if (f['age'].errors?.['min'] || f['age'].errors?.['max']) {
+            <span>Возраст должен быть от 18 до 65 лет</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label class="checkbox-label">
+        <input type="checkbox" formControlName="agreeToTerms" />
+        Согласен с правилами компании <span class="required">*</span>
+      </label>
+
+      @if (showError('agreeToTerms')) {
+        <div class="error-text">
+          Необходимо согласие с правилами
+        </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="orderForm.invalid" class="submit-btn">Отправить заказ</button>
+  </form>
+</div>
