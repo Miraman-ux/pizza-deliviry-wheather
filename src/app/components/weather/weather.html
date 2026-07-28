@@ -1,0 +1,36 @@
+<div class="wheather-container">
+  <h2>Погода в городах Беларуси</h2>
+
+  <div class="cities-buttons">
+    @for (city of cities; track city.name){
+      <button [class.active]="selectedCity() === city.name" [disabled]="isLoading()" (click)="selectCity(city)"> {{ city.name }}</button>
+    }
+  </div>
+
+  @if (isLoading()){
+    <div class="loader">
+      <p>Загрузка...</p>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">
+      <p> {{ errorMessage() }} </p>
+    </div>
+  }
+
+  @if (weather(); as data) {
+    <div class="wheather- card">
+      <h3>Погода в {{ selectedCity() }} </h3>
+      <p class="temp">
+        <strong>Температура:</strong> {{ data.current.temperature_2m }} {{ data.current_units.temperature_2m }}
+      </p>
+      <p class="wind">
+        <strong>Скорость ветра: </strong> {{ data.current.wind_speed_10m }} {{ data.current_units.wind_speed_10m }}
+      </p>
+      <p class="humidity">
+        <strong>Влажность: </strong> {{ data.current.relative_humidity_2m}} {{data.current_units.relative_humidity_2m }}
+      </p>
+    </div>
+  }
+</div>
