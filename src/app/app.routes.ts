@@ -8,7 +8,7 @@ import { OrderForm } from './components/order-form/order-form';
 import { Weather } from './components/weather/weather';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'menu', pathMatch: 'full' },
+  { path: '', component: Home },
   { path: 'menu', component: Menu, title: 'Меню пицц 🍕' },
   { path: 'pizza/:id', component: Pizza },
   { path: 'contacts', component: Contacts },

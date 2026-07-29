@@ -1,43 +1,98 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, signal, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import { WheatherService } from '../../services/wheather';
+import {ActivatedRoute, Router} from '@angular/router';
+import {WheatherService} from '../../services/wheather';
 import {WeatherResponse} from '../../models/weather.interface';
-
-export interface City {
-  name: string;
-  lat: number;
-  lon: number;
-}
+import {DayOfWeekPipe} from '../../pipes/day-of-week-pipe';
+import {CITIES, City} from '../../../constants/cities.const';
 
 @Component({
   selector: 'app-weather',
-  imports: [CommonModule],
+  imports: [CommonModule, DayOfWeekPipe],
   templateUrl: './weather.html',
   styleUrl: './weather.css',
 })
-export class Weather {
-  private readonly weatherService = inject(WheatherService);
+export class Weather implements OnInit {
 
-  cities: City[] = [
-    {name: 'Гомель', lat: 52.4345, lon: 30.9754},
-    {name: 'Минск', lat: 53.9002, lon: 27.5665},
-    {name: 'Гродно', lat: 53.6287, lon: 23.8942},
-    {name: 'Могилев', lat: 53.9088, lon: 30.3404},
-  ];
+  public readonly cities: City[] = CITIES;
 
   public weather = signal<WeatherResponse | null>(null);
   public isLoading = signal<boolean>(false);
   public errorMessage = signal<string | null>(null);
   public selectedCity = signal<string | null>(null);
+  private readonly weatherService = inject(WheatherService);
+  private readonly route = inject(ActivatedRoute)
+  private readonly router = inject(Router);
 
-  public selectCity (city: City) {
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const citySlug = params['city'];
+
+      if (citySlug) {
+        const foundCity = this.cities.find((c) => c.slug === citySlug);
+        if (foundCity) {
+          this.loadWeatherData(foundCity);
+        }
+      }
+    })
+  }
+
+  public selectCity(city: City) {
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {city: city.slug},
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  public getWeatherStatus(code: number | undefined): { text: string; icon: string } {
+    if (code === undefined) return {text: 'Нет данных', icon: '❓'};
+
+    switch (code) {
+      case 0:
+        return {text: 'Ясно', icon: '☀️'};
+      case 1:
+      case 2:
+        return {text: 'Малооблачно', icon: '🌤️'};
+      case 3:
+        return {text: 'Пасмурно', icon: '☁️'};
+      case 45:
+      case 48:
+        return {text: 'Туман', icon: '🌫️'};
+      case 51:
+      case 53:
+      case 55:
+        return {text: 'Морось', icon: '🌧️'};
+      case 61:
+      case 63:
+      case 65:
+        return {text: 'Дождь', icon: '🌧️'};
+      case 71:
+      case 73:
+      case 75:
+        return {text: 'Снегопад', icon: '❄️'};
+      case 80:
+      case 81:
+      case 82:
+        return {text: 'Ливень', icon: '🌩️'};
+      case 95:
+      case 96:
+      case 99:
+        return {text: 'Гроза', icon: '⚡'};
+      default:
+        return {text: 'Облачно', icon: '☁️'};
+    }
+  }
+
+  private loadWeatherData(city: City): void {
     this.isLoading.set(true);
     this.weather.set(null);
     this.errorMessage.set(null);
     this.selectedCity.set(city.name);
 
     this.weatherService.getWeather(city.lat, city.lon).subscribe({
-      next: (data: WeatherResponse)=> {
+      next: (data: WeatherResponse) => {
         this.isLoading.set(false);
         this.weather.set(data);
       },
@@ -47,5 +102,6 @@ export class Weather {
         console.error('Ошибка при запросе погоды:', err);
       }
     });
+
   }
 }

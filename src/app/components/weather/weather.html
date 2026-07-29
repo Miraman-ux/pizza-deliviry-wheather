@@ -1,36 +1,92 @@
-<div class="wheather-container">
-  <h2>Погода в городах Беларуси</h2>
+<div class="weather-container">
+  <div class="archive-card fade-in">
 
-  <div class="cities-buttons">
-    @for (city of cities; track city.name){
-      <button [class.active]="selectedCity() === city.name" [disabled]="isLoading()" (click)="selectCity(city)"> {{ city.name }}</button>
+    <div class="system-status">
+      <div class="pulse-dot"></div>
+      <span class="status-title">МЕТЕО-СПОТ «БЕЛАРУСЬ» // ONLINE</span>
+    </div>
+
+    <h2>Погода в городах Беларуси</h2>
+
+    <div class="cities-buttons">
+      @for (city of cities; track city.name) {
+        <button
+          [class.active]="selectedCity() === city.name"
+          [disabled]="isLoading()"
+          (click)="selectCity(city)"
+          class="city-btn"
+        >
+          <span class="city-dot"></span>
+          {{ city.name }}
+        </button>
+      }
+    </div>
+
+    @if (isLoading()) {
+      <div class="radar-loader">
+        <div class="radar-sweep"></div>
+        <div class="radar-circle"></div>
+        <p class="loader-text">СКАНИРОВАНИЕ АТМОСФЕРЫ...</p>
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <div class="error-message">
+        <span class="error-icon">⚠️</span>
+        <p>{{ errorMessage() }}</p>
+      </div>
+    }
+
+    @if (weather(); as data) {
+      <div class="weather-card">
+        <div class="card-header">
+          <h3>Метеосводка: <span class="highlight-city">{{ selectedCity() }}</span></h3>
+          <div class="day-badge">
+            <span class="day-icon">📅</span>
+            <span class="day-name">{{ data.current.time | dayOfWeek }}</span>
+          </div>
+        </div>
+
+        <p class="status">
+          <strong>Состояние: </strong>
+          {{ getWeatherStatus(data.current.weather_code).icon }}
+          {{ getWeatherStatus(data.current.weather_code).text }}
+        </p>
+
+        <div class="metrics-grid">
+
+          <div class="metric-box temp-box">
+            <div class="metric-icon">🌡️</div>
+            <div class="metric-info">
+              <span class="label">Температура</span>
+              <span class="value main-temp">
+                {{ data.current.temperature_2m }}<span class="unit">{{ data.current_units.temperature_2m }}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="metric-box wind-box">
+            <div class="metric-icon wind-icon">💨</div>
+            <div class="metric-info">
+              <span class="label">Скорость ветра</span>
+              <span class="value">
+                {{ data.current.wind_speed_10m }} <span class="unit">{{ data.current_units.wind_speed_10m }}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="metric-box humidity-box">
+            <div class="metric-icon">💧</div>
+            <div class="metric-info">
+              <span class="label">Влажность</span>
+              <span class="value">
+                {{ data.current.relative_humidity_2m }}<span class="unit">{{ data.current_units.relative_humidity_2m }}</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
     }
   </div>
-
-  @if (isLoading()){
-    <div class="loader">
-      <p>Загрузка...</p>
-    </div>
-  }
-
-  @if (errorMessage()) {
-    <div class="error-message">
-      <p> {{ errorMessage() }} </p>
-    </div>
-  }
-
-  @if (weather(); as data) {
-    <div class="wheather- card">
-      <h3>Погода в {{ selectedCity() }} </h3>
-      <p class="temp">
-        <strong>Температура:</strong> {{ data.current.temperature_2m }} {{ data.current_units.temperature_2m }}
-      </p>
-      <p class="wind">
-        <strong>Скорость ветра: </strong> {{ data.current.wind_speed_10m }} {{ data.current_units.wind_speed_10m }}
-      </p>
-      <p class="humidity">
-        <strong>Влажность: </strong> {{ data.current.relative_humidity_2m}} {{data.current_units.relative_humidity_2m }}
-      </p>
-    </div>
-  }
 </div>

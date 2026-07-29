@@ -1,7 +1,23 @@
 <div class="not-found-container">
-  <h1>🍕 Ой! Пицца потерялась (Ошибка 404)</h1>
-  <p>Похоже, этой страницы никогда не существовало или её кто-то съел.</p>
+  <div class="archive-card fade-in">
+    <div class="archive-stamp error-stamp">ERR_404</div>
 
-  <!-- Кнопка возврата, используем routerLink из статьи -->
-  <a routerLink="/" class="back-btn">Вернуться на главную кухню</a>
+    <div class="error-illustration">
+      <span class="ghost-pizza">🍕</span>
+      <span class="magnifier">🔍</span>
+    </div>
+
+    <h1 class="title">Ой! Пицца потерялась (Ошибка 404)</h1>
+
+    <p class="subtitle">
+      Похоже, этой страницы никогда не существовало или её кто-то съел.
+    </p>
+
+    <div class="actions">
+      <a routerLink="/" class="back-btn">
+        <span class="arrow">⬅</span>
+        <span>Вернуться на главную кухню</span>
+      </a>
+    </div>
+  </div>
 </div>

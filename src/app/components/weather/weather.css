@@ -1,0 +1,334 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.weather-container {
+  width: 100%;
+  max-width: 680px;
+}
+
+.archive-card {
+  position: relative;
+  background: rgba(26, 29, 36, 0.8);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(208, 143, 112, 0.25);
+  border-radius: 20px;
+  padding: 40px 32px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.65),
+    inset 0 0 2px rgba(208, 143, 112, 0.2);
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--text-main, #e5e9f0);
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #a3be8c;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #a3be8c;
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+.status-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #a3be8c;
+  opacity: 0.85;
+}
+
+h2 {
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--accent-amber, #d08f70);
+  margin: 0 0 28px 0;
+}
+
+.cities-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.city-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(18, 20, 23, 0.6);
+  border: 1px solid rgba(46, 52, 64, 0.8);
+  border-radius: 8px;
+  color: var(--text-muted, #9aa5ce);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.city-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(154, 165, 206, 0.4);
+  transition: all 0.25s ease;
+}
+
+.city-btn:hover:not(:disabled) {
+  border-color: rgba(208, 143, 112, 0.5);
+  color: var(--text-main, #e5e9f0);
+  transform: translateY(-2px);
+}
+
+.city-btn.active {
+  background: rgba(208, 143, 112, 0.15);
+  border-color: var(--accent-amber, #d08f70);
+  color: var(--accent-amber, #d08f70);
+  box-shadow: 0 0 15px rgba(208, 143, 112, 0.25);
+}
+
+.city-btn.active .city-dot {
+  background: var(--accent-amber, #d08f70);
+  box-shadow: 0 0 8px var(--accent-amber, #d08f70);
+}
+
+.city-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.radar-loader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  margin: 20px 0;
+}
+
+.radar-circle {
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgba(208, 143, 112, 0.2);
+  border-radius: 50%;
+  position: relative;
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 35px;
+  height: 35px;
+  background: conic-gradient(from 0deg, rgba(208, 143, 112, 0.6), transparent 60%);
+  border-radius: 100% 0 0 0;
+  transform-origin: 0% 0%;
+  animation: radarScan 1.2s linear infinite;
+}
+
+.loader-text {
+  margin-top: 18px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent-amber, #d08f70);
+  animation: textBlink 1s infinite alternate;
+}
+
+.weather-card {
+  background: rgba(18, 20, 23, 0.6);
+  border: 1px solid rgba(46, 52, 64, 0.8);
+  border-radius: 14px;
+  padding: 24px;
+  animation: cardSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(46, 52, 64, 0.8);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-muted, #9aa5ce);
+}
+
+.highlight-city {
+  color: var(--text-main, #e5e9f0);
+  font-weight: 600;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.metric-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(26, 29, 36, 0.6);
+  border: 1px solid rgba(208, 143, 112, 0.15);
+  border-radius: 10px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.metric-box:hover {
+  border-color: rgba(208, 143, 112, 0.4);
+  transform: translateY(-2px);
+  background: rgba(26, 29, 36, 0.9);
+}
+
+.metric-icon {
+  font-size: 1.8rem;
+}
+
+/* Анимация вращения иконки ветра при наведении */
+.metric-box:hover .wind-icon {
+  animation: windSpin 1.5s linear infinite;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-info .label {
+  font-size: 0.75rem;
+  color: var(--text-muted, #9aa5ce);
+  margin-bottom: 4px;
+}
+
+.metric-info .value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main, #e5e9f0);
+}
+
+.metric-info .main-temp {
+  font-size: 1.5rem;
+  color: var(--accent-amber, #d08f70);
+}
+
+.metric-info .unit {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-muted, #9aa5ce);
+  margin-left: 2px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(191, 97, 106, 0.1);
+  border: 1px solid rgba(191, 97, 106, 0.3);
+  color: #bf616a;
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-top: 16px;
+}
+
+.error-message p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.day-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4fc3f7;
+}
+
+.day-icon {
+  font-size: 0.85rem;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes radarScan {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes textBlink {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes windSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: cardAppear 0.5s ease-out forwards;
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

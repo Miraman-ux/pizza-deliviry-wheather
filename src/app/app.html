@@ -1,10 +1,38 @@
-<nav>
-  <a routerLink="/">Главная</a> |
-  <a routerLink="/menu">Меню</a> |
-  <a routerLink="/order">Оформить заказ</a>
-  <a routerLink="/contacts">Контакты</a> |
-  <a routerLink="/weather">Погода Беларусь</a>
-</nav>
+<header class="archive-header">
+  <nav class="archive-nav">
+    <div class="brand">
+      <span class="brand-symbol">📜</span>
+      <span class="brand-name">PIZZA ARCHIVE</span>
+    </div>
 
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" class="nav-link">
+        Главная
+      </a>
+      <span class="sep">/</span>
 
-<router-outlet></router-outlet>
+      <a routerLink="/menu" routerLinkActive="active" class="nav-link">
+        Меню
+      </a>
+      <span class="sep">/</span>
+
+      <a routerLink="/order" routerLinkActive="active" class="nav-link">
+        Оформить заказ
+      </a>
+      <span class="sep">/</span>
+
+      <a routerLink="/contacts" routerLinkActive="active" class="nav-link">
+        Контакты
+      </a>
+      <span class="sep">/</span>
+
+      <a routerLink="/weather" routerLinkActive="active" class="nav-link highlight">
+        Погода Беларусь
+      </a>
+    </div>
+  </nav>
+</header>
+
+<main class="page-container">
+  <router-outlet></router-outlet>
+</main>

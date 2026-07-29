@@ -15,7 +15,7 @@ export class WheatherService {
     const myParams = new HttpParams()
       .set('latitude', latitude)
       .set('longitude', longitude)
-      .set('current', 'temperature_2m,wind_speed_10m,relative_humidity_2m')
+      .set('current', 'temperature_2m,wind_speed_10m,relative_humidity_2m,weather_code')
       .set('temperature_unit', 'celsius')
       .set('wind_speed_unit', 'ms')
       .set('timezone', 'auto');
