@@ -1,18 +1,18 @@
 import {Component, inject, signal, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {WheatherService} from '../../services/wheather';
+import {WheatherService} from '../../services/wheather.service';
 import {WeatherResponse} from '../../models/weather.interface';
 import {DayOfWeekPipe} from '../../pipes/day-of-week-pipe';
-import {CITIES, City} from '../../../constants/cities.const';
+import {CITIES, City} from '../../constants/cities.const';
 
 @Component({
   selector: 'app-weather',
   imports: [CommonModule, DayOfWeekPipe],
-  templateUrl: './weather.html',
-  styleUrl: './weather.css',
+  templateUrl: './weather.component.html',
+  styleUrl: './weather.component.css',
 })
-export class Weather implements OnInit {
+export class WeatherComponent implements OnInit {
 
   public readonly cities: City[] = CITIES;
 
