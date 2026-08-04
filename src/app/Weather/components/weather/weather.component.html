@@ -49,8 +49,8 @@
 
         <p class="status">
           <strong>Состояние: </strong>
-          {{ getWeatherStatus(data.current.weather_code).icon }}
-          {{ getWeatherStatus(data.current.weather_code).text }}
+          {{ (data.current.weather_code | weatherStatusPipe ).icon }}
+          {{ (data.current.weather_code | weatherStatusPipe ).text }}
         </p>
 
         <div class="metrics-grid">
