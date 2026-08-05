@@ -7,7 +7,7 @@ import {DayOfWeekPipe} from '../../pipes/day-of-week-pipe';
 import {CITIES, City} from '../../constants/cities.const';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {WeatherStatusPipe} from '../../pipes/weather-status.pipe';
-import {Observable, switchMap, of} from 'rxjs';
+import {Observable, switchMap, of, catchError} from 'rxjs';
 
 @Component({
   selector: 'app-weather',
@@ -33,6 +33,11 @@ export class WeatherComponent implements OnInit {
   }
 
   public async selectCity(city: City): Promise<void> {
+
+    if (this.selectedCity() === city.name) {
+      return;
+    }
+
     const success = await this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {city: city.slug},
@@ -48,17 +53,10 @@ export class WeatherComponent implements OnInit {
     this.route.queryParams.pipe(
       takeUntilDestroyed(this.destroyRef),
       switchMap((params) => this.fetchWeatherByParams(params))
-    ).subscribe({
-      next: (data) => {
-        this.isLoading.set(false);
-        if (data) {
-          this.weather.set(data);
-        }
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.errorMessage.set('Не удалось загрузить данные о погоде.');
-        console.error('Ошибка при запросе погоды:', err);
+    ).subscribe( (data) => {
+      this.isLoading.set(false);
+      if (data){
+        this.weather.set(data)
       }
     });
   }
@@ -75,6 +73,13 @@ export class WeatherComponent implements OnInit {
     this.errorMessage.set(null);
     this.selectedCity.set(foundCity.name);
 
-    return this.weatherService.getWeather(foundCity.lat, foundCity.lon);
+    return this.weatherService.getWeather(foundCity.lat, foundCity.lon).pipe(
+      catchError(err => {
+        this.isLoading.set(false)
+        this.errorMessage.set('Не удалось загрузить данные о погоде.')
+        console.log(err)
+        return of(null);
+      })
+    );
   }
 }
