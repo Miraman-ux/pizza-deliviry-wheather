@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg-deep: #0a0b0d;
+  --bg-surface: #121417;
+  --border-subtle: #2e3440;
+  --text-main: #e5e9f0;
+  --text-muted: #9aa5ce;
+  --accent-amber: #d08f70;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg-deep);
+
+  background-image: radial-gradient(
+    circle at center,
+    #1a1d24 0%,
+    #121417 55%,
+    #0a0b0d 100%
+  );
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

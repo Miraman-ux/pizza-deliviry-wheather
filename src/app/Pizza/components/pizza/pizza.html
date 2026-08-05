@@ -1,0 +1,37 @@
+<div class="pizza-details-container">
+  <div class="details-card fade-in">
+
+    <header class="details-header">
+      <div class="archive-code">СПЕЦИФИКАЦИЯ № 00{{ pizzaId }}</div>
+      <h2 class="title">Пицца №{{ pizzaId }}</h2>
+    </header>
+
+    <div class="details-body">
+      <div class="info-block">
+        <span class="info-icon">📄</span>
+        <p class="description">
+          Здесь представлена подробная рецептура, список ингредиентов, пищевая ценность и отзывы критиков для выпечки под номером <strong>№{{ pizzaId }}</strong>.
+        </p>
+      </div>
+
+      <div class="preview-grid">
+        <div class="preview-item">
+          <span class="label">Состав</span>
+          <span class="value">Классическая рецептура</span>
+        </div>
+        <div class="preview-item">
+          <span class="label">Статус</span>
+          <span class="value ready">Доступно к заказу</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="details-footer">
+      <a routerLink="/menu" class="back-btn">
+        <span class="arrow">⬅</span>
+        <span>Назад в меню</span>
+      </a>
+    </footer>
+
+  </div>
+</div>

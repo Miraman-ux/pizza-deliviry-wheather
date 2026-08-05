@@ -1,0 +1,26 @@
+<div class="menu-container">
+  <header class="menu-header">
+    <h2 class="menu-title">Реестр Рецептур</h2>
+    <p class="menu-subtitle">Выберите позицию для просмотра подробных характеристик</p>
+  </header>
+
+  <ul class="pizza-grid">
+    @for (pizza of pizzas; track pizza.id; let i = $index) {
+      <li class="pizza-item" [style.--i]="i">
+        <a [routerLink]="['/pizza', pizza.id]" class="pizza-card">
+          <div class="card-badge">№ 00{{ pizza.id }}</div>
+
+          <div class="card-content">
+            <h3 class="pizza-name">{{ pizza.name }}</h3>
+            <div class="pizza-price">{{ pizza.price }} ₽</div>
+          </div>
+
+          <div class="card-action">
+            <span>Подробнее</span>
+            <span class="arrow">→</span>
+          </div>
+        </a>
+      </li>
+    }
+  </ul>
+</div>

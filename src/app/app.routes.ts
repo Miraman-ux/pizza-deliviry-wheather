@@ -1,25 +1,26 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/home/home';
-import { Menu } from './components/menu/menu';
-import { Contacts } from './components/contacts/contacts';
-import {Pizza} from './components/pizza/pizza';
-import { NotFound } from './components/not-found/not-found';
-import { OrderForm } from './components/order-form/order-form';
+import { Home } from './Pizza/components/home/home';
+import { Menu } from './Pizza/components/menu/menu';
+import { Contacts } from './Pizza/components/contacts/contacts';
+import {Pizza} from './Pizza/components/pizza/pizza';
+import { NotFound } from './Pizza/components/not-found/not-found';
+import { OrderForm } from './Pizza/components/order-form/order-form';
+import { WeatherComponent } from './Weather/components/weather/weather.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'menu', pathMatch: 'full' },
+  { path: '', component: Home },
   { path: 'menu', component: Menu, title: 'Меню пицц 🍕' },
   { path: 'pizza/:id', component: Pizza },
   { path: 'contacts', component: Contacts },
-
   {path: 'order', component: OrderForm, title: 'Оформление заказа' },
+  {path: 'weather', component: WeatherComponent},
 
 
   {
     path: 'admin',
-    loadComponent: () => import('./pages/admin/admin').then(m => m.Admin),
+    loadComponent: () => import('./Pizza/pages/admin/admin').then(m => m.Admin),
     title: 'Панель администратора',
-    
+
 
   },
 
